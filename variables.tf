@@ -26,7 +26,7 @@ variable "role" {
 }
 
 variable "authoritative" {
-  description = "(Optional) IAM choice whether 'authoritative == true' use iam_binding, 'authoritative == false' use iam_member"
+  description = "(Optional) Whether to use iam_binding (authoritative mode) or iam_member (non-authoritative/additive mode)."
   type        = bool
   default     = true
 }

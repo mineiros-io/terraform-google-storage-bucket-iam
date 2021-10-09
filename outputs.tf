@@ -1,4 +1,3 @@
-
 locals {
   binding = try(google_storage_bucket_iam_binding.binding[0], null)
   member  = try(google_storage_bucket_iam_member.member, null)
