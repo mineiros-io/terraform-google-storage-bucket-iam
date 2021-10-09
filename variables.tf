@@ -32,7 +32,7 @@ variable "authoritative" {
 }
 
 variable "policy_bindings" {
-  description = "(optional) A list of IAM policy bindings."
+  description = "(Optional) A list of IAM policy bindings."
   type        = any
   default     = null
 }
