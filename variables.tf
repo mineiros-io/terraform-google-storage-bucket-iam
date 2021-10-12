@@ -15,7 +15,7 @@ variable "bucket" {
 
 variable "members" {
   type        = set(string)
-  description = "(Optional) Identities that will be granted the privilege in role. Each entry can have one of the following values: 'allUsers', 'allAuthenticatedUsers', 'serviceAccount:{emailid}', 'group:{emailid}', 'domain:{domain}'."
+  description = "(Optional) Identities that will be granted the privilege in role. Each entry can have one of the following values: 'allUsers', 'allAuthenticatedUsers', 'user:{emailid}', 'serviceAccount:{emailid}', 'group:{emailid}', 'domain:{domain}', 'projectOwner:projectid', 'projectEditor:projectid', 'projectViewer:projectid'."
   default     = []
 }
 
@@ -26,7 +26,7 @@ variable "role" {
 }
 
 variable "authoritative" {
-  description = "(Optional) Whether to use iam_binding (authoritative mode) or iam_member (non-authoritative/additive mode)."
+  description = "(Optional) Whether to exclusively set (authoritative mode) or add (non-authoritative/additive mode) members to the role."
   type        = bool
   default     = true
 }

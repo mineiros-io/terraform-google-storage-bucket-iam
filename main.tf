@@ -37,10 +37,14 @@ data "google_iam_policy" "policy" {
       role    = binding.value.role
       members = try(binding.value.members, var.members)
 
-      condition {
-        expression  = binding.value.condition.expression
-        title       = binding.value.condition.title
-        description = try(binding.value.condition.description, null)
+      dynamic "condition" {
+        for_each = try([binding.value.condition], [])
+
+        content {
+          expression  = condition.value.expression
+          title       = condition.value.title
+          description = try(condition.value.description, null)
+        }
       }
     }
   }
