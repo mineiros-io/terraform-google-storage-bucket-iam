@@ -39,7 +39,6 @@ This module implements the following terraform resources:
 - `google_storage_bucket_iam_binding`
 - `google_storage_bucket_iam_member`
 - `google_storage_bucket_iam_policy`
-- `google_iam_policy`
 
 ## Getting Started
 
@@ -141,7 +140,7 @@ See [variables.tf] and [examples/] for details and use-cases.
   - **`condition`**: _(Optional `object(condition)`)_
 
     An IAM Condition for a given binding.
-    
+
     Example
 
     ```hcl
