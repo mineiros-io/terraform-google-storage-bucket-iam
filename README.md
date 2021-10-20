@@ -87,7 +87,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Used to find the parent resource to bind the IAM policy to.
 
-- **`members`**: **_(Optional `string`)_
+- **`members`**: _(Optional `string`)_
 
   Identities that will be granted the privilege in role. Each entry can have one of the following values:
   - `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account.
