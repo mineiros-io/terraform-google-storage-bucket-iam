@@ -6,7 +6,7 @@
 
 # terraform-google-storage-bucket-iam
 
-A [Terraform] module for [Google Cloud Platform (GCP)][gcp].
+A [Terraform](https://www.terraform.io) module to create a [Google Storage Bucket IAM](https://cloud.google.com/storage/docs/access-control/iam-roles) on [Google Cloud Services (GCP)](https://cloud.google.com/).
 
 **_This module supports Terraform version 1
 and is compatible with the Terraform Google Provider version 3._**
@@ -86,7 +86,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Used to find the parent resource to bind the IAM policy to.
 
-- **`members`**: _(Optional `string`)_
+- **`members`**: _(Optional `set(string)`)_
 
   Identities that will be granted the privilege in role. Each entry can have one of the following values:
   - `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account.
@@ -95,6 +95,9 @@ See [variables.tf] and [examples/] for details and use-cases.
   - `serviceAccount:{emailid}`: An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com.
   - `group:{emailid}`: An email address that represents a Google group. For example, admins@example.com.
   - `domain:{domain}`: A G Suite domain (primary, instead of alias) name that represents all the users of that domain. For example, google.com or example.com.
+  - `projectOwner:projectid`: Owners of the given project. For example, `projectOwner:my-example-project`
+  - `projectEditor:projectid`: Editors of the given project. For example, `projectEditor:my-example-project`
+  - `projectViewer:projectid`: Viewers of the given project. For example, `projectViewer:my-example-project`
 
   Default is `[]`.
 
@@ -104,7 +107,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 - **`project`**: _(Optional `string`)_
 
-  The resource name of the project the policy is attached to. Its format is `projects/{project_id}`.
+  The ID of the project in which the resource belongs. If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
 
 - **`authoritative`**: _(Optional `bool`)_
 
@@ -131,7 +134,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
     The role that should be applied.
 
-  - **`members`**: **_(Required `string`)_**
+  - **`members`**: _(Optional `set(string)`)_
 
     Identities that will be granted the privilege in `role`.
 
@@ -140,7 +143,7 @@ See [variables.tf] and [examples/] for details and use-cases.
   - **`condition`**: _(Optional `object(condition)`)_
 
     An IAM Condition for a given binding.
-
+    
     Example
 
     ```hcl
