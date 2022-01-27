@@ -175,7 +175,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 The following attributes are exported in the outputs of the module:
 
-- **`iam`**
+- [**`iam`**](#output-iam): *(`object(iam)`)*<a name="output-iam"></a>
 
   All attributes of the created `iam_binding` or `iam_member` or `iam_policy` resource according to the mode.
 
