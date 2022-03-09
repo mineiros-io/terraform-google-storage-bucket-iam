@@ -65,7 +65,7 @@ section {
 
       ```hcl
       module "terraform-google-storage-bucket-iam" {
-        source = "github.com/mineiros-io/terraform-google-storage-bucket-iam?ref=v0.1.0"
+        source = "github.com/mineiros-io/terraform-google-storage-bucket-iam?ref=v0.0.3"
 
         bucket  = "my-bucket"
         role    = "roles/storage.admin"
