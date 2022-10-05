@@ -85,30 +85,6 @@ section {
       title = "Top-level Arguments"
 
       section {
-        title = "Module Configuration"
-
-        variable "module_enabled" {
-          type        = bool
-          default     = true
-          description = <<-END
-            Specifies whether resources in the module will be created.
-          END
-        }
-
-        variable "module_depends_on" {
-          type           = list(dependency)
-          description    = <<-END
-            A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
-          END
-          readme_example = <<-END
-            module_depends_on = [
-              google_network.network
-            ]
-          END
-        }
-      }
-
-      section {
         title = "Main Resource Configuration"
 
         variable "bucket" {
@@ -133,20 +109,33 @@ section {
             - `projectOwner:projectid`: Owners of the given project. For example, `projectOwner:my-example-project`
             - `projectEditor:projectid`: Editors of the given project. For example, `projectEditor:my-example-project`
             - `projectViewer:projectid`: Viewers of the given project. For example, `projectViewer:my-example-project`
-          END
+            - `computed:{identifier}`: An existing key from var.computed_members_map.
+            END
+        }
+
+        variable "computed_members_map" {
+          type        = map(string)
+          default     = {}
+          description = <<-END
+             A map of identifiers to identities to be replaced in 'var.members' or in members of `policy_bindings` to handle terraform computed values.
+             The format of each value must satisfy the format as described in `var.members`.
+           END
+          # TODO: terradoc does not allow use of variables in examples
+          # readme_example = <<-END
+          #   members = [
+          #     "user:member@example.com",
+          #     "computed:myserviceaccount",
+          #   ]
+          #   computed_members_map = {
+          #     myserviceaccount = "serviceAccount:${google_service_account.service_account.id}"
+          #   }
+          # END
         }
 
         variable "role" {
           type        = string
           description = <<-END
             The role that should be applied. Note that custom roles must be of the format `[projects|organizations]/{parent-name}/roles/{role-name}`.
-          END
-        }
-
-        variable "project" {
-          type        = string
-          description = <<-END
-            The ID of the project in which the resource belongs. If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
           END
         }
 
@@ -221,6 +210,30 @@ section {
               END
             }
           }
+        }
+      }
+
+      section {
+        title = "Module Configuration"
+
+        variable "module_enabled" {
+          type        = bool
+          default     = true
+          description = <<-END
+            Specifies whether resources in the module will be created.
+          END
+        }
+
+        variable "module_depends_on" {
+          type           = list(dependency)
+          description    = <<-END
+            A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
+          END
+          readme_example = <<-END
+            module_depends_on = [
+              google_network.network
+            ]
+          END
         }
       }
     }

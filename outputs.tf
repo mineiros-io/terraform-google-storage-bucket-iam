@@ -1,7 +1,7 @@
 locals {
-  binding = try(google_storage_bucket_iam_binding.binding[0], null)
-  member  = try(google_storage_bucket_iam_member.member, null)
-  policy  = try(google_storage_bucket_iam_policy.policy[0], null)
+  binding = one(google_storage_bucket_iam_binding.binding)
+  member  = google_storage_bucket_iam_member.member
+  policy  = one(google_storage_bucket_iam_policy.policy)
 
   iam_output = [local.binding, local.member, local.policy]
 
