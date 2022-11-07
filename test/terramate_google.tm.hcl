@@ -1,5 +1,5 @@
 generate_hcl "_generated_google.tf" {
-  condition = global.provider == "google"
+  condition = global.provider == "google" || global.provider == "google-beta"
   content {
     variable "gcp_project" {
       type        = string
@@ -22,7 +22,7 @@ generate_hcl "_generated_google.tf" {
     variable "gcp_billing_account" {
       type        = string
       description = "(Optional) The billing account to use when creating projects."
-      default     = null
+      default     = "test-billing-account"
     }
 
     terraform {

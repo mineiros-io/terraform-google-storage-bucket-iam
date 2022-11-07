@@ -23,6 +23,11 @@ module "test" {
     myserviceaccount = "serviceAccount:${module.test-sa.service_account.email}"
   }
 
+  condition = {
+    title       = "allow after 2020"
+    description = "allow access from 2020"
+    expression  = "request.time.getFullYear() > 2020"
+  }
   # add most/all other optional arguments
 }
 
