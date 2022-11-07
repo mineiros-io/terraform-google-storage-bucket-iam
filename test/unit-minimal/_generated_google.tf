@@ -17,7 +17,7 @@ variable "gcp_org_domain" {
   type        = string
 }
 variable "gcp_billing_account" {
-  default     = null
+  default     = "test-billing-account"
   description = "(Optional) The billing account to use when creating projects."
   type        = string
 }

@@ -1,25 +1,51 @@
+locals {
+  create_binding = var.module_enabled && var.policy_bindings == null && var.role != null && var.authoritative
+  create_member  = var.module_enabled && var.policy_bindings == null && var.role != null && var.authoritative == false
+  create_policy  = var.module_enabled && var.policy_bindings != null
+}
+
 resource "google_storage_bucket_iam_binding" "binding" {
-  count = var.module_enabled && var.policy_bindings == null && var.authoritative ? 1 : 0
+  count = local.create_binding ? 1 : 0
 
   bucket  = var.bucket
   role    = var.role
   members = [for m in var.members : try(var.computed_members_map[regex("^computed:(.*)", m)[0]], m)]
 
+  dynamic "condition" {
+    for_each = var.condition != null ? [var.condition] : []
+
+    content {
+      expression  = condition.value.expression
+      title       = condition.value.title
+      description = try(condition.value.description, null)
+    }
+  }
+
   depends_on = [var.module_depends_on]
 }
 
 resource "google_storage_bucket_iam_member" "member" {
-  for_each = var.module_enabled && var.policy_bindings == null && var.authoritative == false ? var.members : []
+  for_each = local.create_member ? var.members : []
 
   bucket = var.bucket
   role   = var.role
   member = try(var.computed_members_map[regex("^computed:(.*)", each.value)[0]], each.value)
 
+  dynamic "condition" {
+    for_each = var.condition != null ? [var.condition] : []
+
+    content {
+      expression  = condition.value.expression
+      title       = condition.value.title
+      description = try(condition.value.description, null)
+    }
+  }
+
   depends_on = [var.module_depends_on]
 }
 
 resource "google_storage_bucket_iam_policy" "policy" {
-  count = var.module_enabled && var.policy_bindings != null ? 1 : 0
+  count = local.create_policy ? 1 : 0
 
   bucket      = var.bucket
   policy_data = try(data.google_iam_policy.policy[0].policy_data, null)
@@ -28,7 +54,7 @@ resource "google_storage_bucket_iam_policy" "policy" {
 }
 
 data "google_iam_policy" "policy" {
-  count = var.module_enabled && var.policy_bindings != null ? 1 : 0
+  count = local.create_policy ? 1 : 0
 
   dynamic "binding" {
     for_each = var.policy_bindings
