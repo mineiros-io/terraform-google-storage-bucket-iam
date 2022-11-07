@@ -103,6 +103,38 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Default is `true`.
 
+- [**`condition`**](#var-condition): *(Optional `object(condition)`)*<a name="var-condition"></a>
+
+  An IAM Condition for the target project IAM binding.
+
+  Example:
+
+  ```hcl
+  role          = "roles/storage.admin"
+  authoritative = true
+  condition = {
+    title = "no_terraform_state_access"
+    expression = <<EOT
+      resource.type ==  "storage.googleapis.com/Bucket" &&
+      resource.name != "terraform-state"
+    EOT
+  }
+  ```
+
+  The `condition` object accepts the following attributes:
+
+  - [**`expression`**](#attr-condition-expression): *(**Required** `string`)*<a name="attr-condition-expression"></a>
+
+    Textual representation of an expression in Common Expression Language syntax.
+
+  - [**`title`**](#attr-condition-title): *(**Required** `string`)*<a name="attr-condition-title"></a>
+
+    A title for the expression, i.e., a short string describing its purpose.
+
+  - [**`description`**](#attr-condition-description): *(Optional `string`)*<a name="attr-condition-description"></a>
+
+    An optional description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
+
 - [**`policy_bindings`**](#var-policy_bindings): *(Optional `list(policy_binding)`)*<a name="var-policy_bindings"></a>
 
   A list of IAM policy bindings.

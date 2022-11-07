@@ -147,6 +147,47 @@ section {
           END
         }
 
+        variable "condition" {
+          type           = object(condition)
+          description    = <<-END
+            An IAM Condition for the target project IAM binding.
+          END
+          readme_example = <<-END
+            role          = "roles/storage.admin"
+            authoritative = true
+            condition = {
+              title = "no_terraform_state_access"
+              expression = <<EOT
+                resource.type ==  "storage.googleapis.com/Bucket" &&
+                resource.name != "terraform-state"
+              EOT
+            }
+          END
+
+          attribute "expression" {
+            required    = true
+            type        = string
+            description = <<-END
+              Textual representation of an expression in Common Expression Language syntax.
+            END
+          }
+
+          attribute "title" {
+            required    = true
+            type        = string
+            description = <<-END
+              A title for the expression, i.e., a short string describing its purpose.
+            END
+          }
+
+          attribute "description" {
+            type        = string
+            description = <<-END
+              An optional description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
+            END
+          }
+        }
+
         variable "policy_bindings" {
           type           = list(policy_binding)
           description    = <<-END

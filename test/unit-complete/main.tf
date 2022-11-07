@@ -99,6 +99,10 @@ module "test4" {
         "user:member@example.com",
         "computed:myserviceaccount",
       ]
+      condition = {
+        expression = "request.time < timestamp(\"2022-01-01T00:00:00Z\")"
+        title      = "expires_after_2021_12_31"
+      }
     },
   ]
 

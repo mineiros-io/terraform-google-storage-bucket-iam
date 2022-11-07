@@ -47,6 +47,12 @@ variable "authoritative" {
   default     = true
 }
 
+variable "condition" {
+  type        = any
+  description = "(Optional) An IAM Condition for a given binding."
+  default     = null
+}
+
 variable "policy_bindings" {
   description = "(Optional) A list of IAM policy bindings."
   type        = any
